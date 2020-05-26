@@ -16,7 +16,7 @@ resource "aws_instance" "vault_ec2" {
                 sudo apt-get install zip unzip
 
                 wget "${var.vault_dl_url}"
-                wget https://raw.githubusercontent.com/tkaburagi/vault-configs/master/vault-dr-tempate-aws.hcl
+                wget https://raw.githubusercontent.com/tkaburagi/vault-configs/master/vault-dr-template-aws.hcl
                 wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultvault-hashidemos.crt.pem
                 wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultvault-hashidemos.key.pem
                 wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultca-hashidemos.crt.pem
