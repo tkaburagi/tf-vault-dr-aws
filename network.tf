@@ -32,7 +32,7 @@ resource "aws_alb_listener" "https_vault" {
   port              = 443
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = aws_acm_certificate.cert.arn
+  certificate_arn   = aws_acm_certificate.cert[count.index].arn
   default_action {
     type             = "forward"
     target_group_arn = aws_alb_target_group.vault_tg[count.index].arn
@@ -41,7 +41,8 @@ resource "aws_alb_listener" "https_vault" {
 
 # ACM
 resource aws_acm_certificate cert {
-  domain_name       = var.domain
+  count = var.num_of_site
+  domain_name       = var.vault_fqdn[count.index]
   validation_method = "DNS"
 }
 
