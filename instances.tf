@@ -17,9 +17,9 @@ resource "aws_instance" "vault_ec2" {
 
                 wget "${var.vault_dl_url}"
                 wget https://raw.githubusercontent.com/tkaburagi/vault-configs/master/vault-dr-template-aws.hcl
-                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/dr-vaultvault-hashidemos.crt.pem
-                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/dr-vaultvault-hashidemos.key.pem
-                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/dr-vaultca-hashidemos.crt.pem
+                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/dr-vaultvault-elb.crt.pem
+                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/dr-vaultvault-elb.key.pem
+                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/dr-vaultca-elb.crt.pem
 
                 unzip vault*.zip
                 rm vault*zip
