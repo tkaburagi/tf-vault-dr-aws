@@ -26,23 +26,38 @@ resource "aws_alb_target_group_attachment" "alb_attach_tg_vault" {
   port = 8200
 }
 
-resource "aws_alb_listener" "https_vault" {
-  count = var.num_of_site
-  load_balancer_arn = aws_alb.vault_alb[count.index].arn
+resource "aws_alb_listener" "https_vault_0" {
+  load_balancer_arn = aws_alb.vault_alb[0].arn
   port              = 443
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = aws_acm_certificate.cert[count.index].arn
+  certificate_arn   = aws_acm_certificate.cert_0.arn
   default_action {
     type             = "forward"
-    target_group_arn = aws_alb_target_group.vault_tg[count.index].arn
+    target_group_arn = aws_alb_target_group.vault_tg[0].arn
+  }
+}
+
+resource "aws_alb_listener" "https_vault_1" {
+  load_balancer_arn = aws_alb.vault_alb[1].arn
+  port              = 443
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate.cert_1.arn
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.vault_tg[1].arn
   }
 }
 
 # ACM
-resource aws_acm_certificate cert {
-  count = var.num_of_site
-  domain_name       = var.vault_fqdn[count.index]
+resource aws_acm_certificate cert_0 {
+  domain_name       = var.vault_fqdn[0]
+  validation_method = "DNS"
+}
+
+resource aws_acm_certificate cert_1 {
+  domain_name       = var.vault_fqdn[1]
   validation_method = "DNS"
 }
 
