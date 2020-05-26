@@ -6,7 +6,7 @@ resource "aws_vpc" "playground" {
   enable_dns_hostnames = "true"
 }
 
-#  Public Subnet
+# Public Subnet
 resource "aws_subnet" "public" {
   vpc_id = aws_vpc.playground.id
   count = length(var.availability_zones)
@@ -29,7 +29,7 @@ resource "aws_eip" "vault_eip_dr_1" {
 resource "aws_security_group" "vault_security_group" {
   name = "vault_security_group"
   description = "Vault Sercuriy Group"
-  vpc_id = aws_vpc.playground.*.id
+  vpc_id = aws_vpc.playground.id
 
   ingress {
     from_port = -1
