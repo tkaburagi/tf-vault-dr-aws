@@ -17,9 +17,9 @@ resource "aws_instance" "vault_ec2" {
 
                 wget "${var.vault_dl_url}"
                 wget https://raw.githubusercontent.com/tkaburagi/vault-configs/master/vault-dr-template-aws.hcl
-                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultvault-hashidemos.crt.pem
-                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultvault-hashidemos.key.pem
-                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultca-hashidemos.crt.pem
+                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/dr-vaultvault-hashidemos.crt.pem
+                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/dr-vaultvault-hashidemos.key.pem
+                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/dr-vaultca-hashidemos.crt.pem
 
                 unzip vault*.zip
                 rm vault*zip
@@ -32,7 +32,7 @@ resource "aws_instance" "vault_ec2" {
                 export API_ADDR_REPLACE=https://${aws_alb.vault_alb[count.index].dns_name}
                 export CLUSTER_ADDR_REPLACE=${var.private_ips[count.index]}
 
-                sed "s|API_ADDR_REPLACE|`echo $API_ADDR_REPLACE`|g" vault-dr-tempate-aws.hcl > config-0.hcl
+                sed "s|API_ADDR_REPLACE|`echo $API_ADDR_REPLACE`|g" vault-dr-template-aws.hcl > config-0.hcl
                 sed "s|CLUSTER_ADDR_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config-0.hcl > config-1.hcl
                 sed "s|NODE_ID_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config-1.hcl > config.hcl
 
