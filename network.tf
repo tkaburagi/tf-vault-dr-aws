@@ -3,7 +3,7 @@ resource "aws_alb" "vault_alb" {
   count = var.num_of_site
   name = "vault-alb-${count.index}"
   internal = false
-  subnets = aws_subnet.public.*.id[count.index]
+  subnets = aws_subnet.public.*.id
   security_groups = [aws_security_group.vault_security_group.id]
 }
 
@@ -98,7 +98,7 @@ resource "aws_route_table" "public" {
 # SubnetRouteTableAssociation
 resource "aws_route_table_association" "public" {
   count = length(var.subnets_cidr)
-  subnet_id = aws_subnet.public.*.id[0]
+  subnet_id = aws_subnet.public.*.id[count.index]
   route_table_id = aws_route_table.public.id
 }
 
