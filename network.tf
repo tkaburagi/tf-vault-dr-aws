@@ -30,6 +30,31 @@ resource "aws_eip" "nat" {
   vpc = true
 }
 
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.playground.id
+
+}
+
+# RouteTable
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.playground.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+  tags = {
+    Name = "public"
+  }
+}
+
+# SubnetRouteTableAssociation
+resource "aws_route_table_association" "public" {
+  count = length(var.subnets_cidr)
+  subnet_id = aws_subnet.public.*.id[0]
+  route_table_id = aws_route_table.public.id
+}
+
+# NatGateway
 resource "aws_nat_gateway" "nat" {
   count = 1
   subnet_id = aws_subnet.public.*.id[0]
