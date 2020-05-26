@@ -42,7 +42,7 @@ variable "subnets_cidr" {
 
 variable "private_ips" {
     type = "list"
-    default = ["10.10.0.50", "10.10.0.51","10.10.0.52"]
+    default = ["10.10.0.50","10.10.1.50"]
 }
 
 variable "public_subnet_name" {
