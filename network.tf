@@ -45,6 +45,35 @@ resource aws_acm_certificate cert {
   validation_method = "DNS"
 }
 
+# Route 53
+resource "aws_route53_record" "vault_dr0" {
+  allow_overwrite = true
+  zone_id = var.dns_zone_id
+  name    = var.vault_dr0_fqdn
+  type    = "CNAME"
+  ttl     = "300"
+  records = [
+    aws_alb.vault_alb[0].dns_name
+  ]
+}
+
+resource "aws_route53_record" "vault_dr1" {
+  allow_overwrite = true
+  zone_id = var.dns_zone_id
+  name    = var.vault_dr1_fqdn
+  type    = "CNAME"
+  ttl     = "300"
+  records = [
+    aws_alb.vault_alb[1].dns_name
+  ]
+}
+
+# ACM
+resource aws_acm_certificate cert {
+  domain_name       = var.domain
+  validation_method = "DNS"
+}
+
 
 # VPC
 resource "aws_vpc" "playground" {

@@ -2,18 +2,24 @@ variable "access_key" {}
 variable "secret_key" {}
 variable "pubkey" {}
 variable "ssh_private_key" {}
+variable "dns_zone_id" {}
+
+variable "domain" {
+    default = "hashidemos.io"
+}
+
+variable "vault_dr0_fqdn" {
+    default = "vault-dr-0.kabu.hashidemos.io"
+}
+
+variable "vault_dr1_fqdn" {
+    default = "vault-dr-1.kabu.hashidemos.io"
+}
 
 variable "num_of_site" {
     default = 2
 }
 
-variable "domain" {
-    default = "ap-northeast-1.elb.amazonaws.com"
-}
-
-variable "vault_fqdn" {
-    default = "vault.kabu.hashidemos.io"
-}
 variable "vault_instance_count" {
     default = 2
 }
@@ -54,7 +60,7 @@ variable "ami" {
 }
 
 variable "vault_instance_name" {
-    default = "vault"
+    default = "dr-vault"
 }
 
 variable "tags" {
