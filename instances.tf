@@ -6,7 +6,6 @@ resource "aws_instance" "vault_ec2" {
   tags = merge(var.tags, map("Name", "${var.vault_instance_name}-${count.index}"))
   subnet_id = aws_subnet.public.*.id[count.index]
   key_name = aws_key_pair.deployer.id
-  associate_public_ip_address = true
   private_ip = var.private_ips[count.index]
   
   user_data =<<-EOF

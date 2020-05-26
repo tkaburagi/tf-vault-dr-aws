@@ -1,3 +1,51 @@
+# ALB
+resource "aws_alb" "vault_alb" {
+  count = var.num_of_site
+  name = "vault-alb-${count.index}"
+  internal = false
+  subnets = aws_subnet.public.*.id[count.index]
+  security_groups = [aws_security_group.vault_security_group.id]
+}
+
+resource "aws_alb_target_group" "vault_tg" {
+  count = var.num_of_site
+  name = "vault-tg-${count.index}"
+  port = 8200
+  protocol = "HTTPS"
+  vpc_id = aws_vpc.playground.id
+
+  health_check {
+    protocol = "HTTPS"
+  }
+}
+
+resource "aws_alb_target_group_attachment" "alb_attach_tg_vault" {
+  count = var.vault_instance_count
+  target_group_arn = aws_alb_target_group.vault_tg[count.index].arn
+  target_id = aws_instance.vault_ec2.*.id[count.index]
+  port = 8200
+}
+
+resource "aws_alb_listener" "https_vault" {
+  count = var.num_of_site
+  load_balancer_arn = aws_alb.vault_alb.arn
+  port              = 443
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate.cert.arn
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.vault_tg[count.index].arn
+  }
+}
+
+# ACM
+resource aws_acm_certificate cert {
+  domain_name       = var.domain
+  validation_method = "DNS"
+}
+
+
 # VPC
 resource "aws_vpc" "playground" {
   cidr_block = var.vpc_cidr
