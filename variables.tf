@@ -8,7 +8,7 @@ variable "num_of_site" {
 }
 
 variable "domain" {
-    default = "hashidemos.io"
+    default = "ap-northeast-1.elb.amazonaws.com"
 }
 
 variable "vault_fqdn" {
