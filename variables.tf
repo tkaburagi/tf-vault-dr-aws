@@ -2,7 +2,6 @@ variable "access_key" {}
 variable "secret_key" {}
 variable "pubkey" {}
 variable "ssh_private_key" {}
-variable "dns_zone_id" {}
 
 variable "num_of_site" {
     default = 2
@@ -33,7 +32,7 @@ variable "availability_zones" {
 }
 
 variable "vpc_cidr" {
-    default = ["10.10.0.0/16", "10.100.0.0/16"]
+    default = ["10.10.0.0/16"]
 }
 
 variable "subnets_cidr" {

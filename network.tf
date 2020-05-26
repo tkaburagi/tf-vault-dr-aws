@@ -1,6 +1,5 @@
 # VPC
 resource "aws_vpc" "playground" {
-  count = var.num_of_site
   cidr_block = var.vpc_cidr[count.index]
   instance_tenancy = "default"
   enable_dns_support = "true"
