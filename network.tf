@@ -49,7 +49,7 @@ resource aws_acm_certificate cert {
 resource "aws_route53_record" "vault_dr0" {
   allow_overwrite = true
   zone_id = var.dns_zone_id
-  name    = var.vault_dr0_fqdn
+  name    = var.vault_fqdn[0]
   type    = "CNAME"
   ttl     = "300"
   records = [
@@ -60,7 +60,7 @@ resource "aws_route53_record" "vault_dr0" {
 resource "aws_route53_record" "vault_dr1" {
   allow_overwrite = true
   zone_id = var.dns_zone_id
-  name    = var.vault_dr1_fqdn
+  name    = var.vault_fqdn[1]
   type    = "CNAME"
   ttl     = "300"
   records = [

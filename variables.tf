@@ -8,12 +8,8 @@ variable "domain" {
     default = "hashidemos.io"
 }
 
-variable "vault_dr0_fqdn" {
-    default = "vault-dr-0.kabu.hashidemos.io"
-}
-
-variable "vault_dr1_fqdn" {
-    default = "vault-dr-1.kabu.hashidemos.io"
+variable "vault_fqdn" {
+    default = ["vault-dr-0.kabu.hashidemos.io","vault-dr-1.kabu.hashidemos.io"]
 }
 
 variable "num_of_site" {
