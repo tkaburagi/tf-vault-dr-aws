@@ -68,13 +68,6 @@ resource "aws_route53_record" "vault_dr1" {
   ]
 }
 
-# ACM
-resource aws_acm_certificate cert {
-  domain_name       = var.domain
-  validation_method = "DNS"
-}
-
-
 # VPC
 resource "aws_vpc" "playground" {
   cidr_block = var.vpc_cidr
