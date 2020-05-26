@@ -3,7 +3,7 @@ resource "aws_alb" "vault_alb" {
   count = var.num_of_site
   name = "vault-alb-${count.index}"
   internal = false
-  subnets = aws_subnet.public[count.index].id
+  subnets = aws_subnet.public.id[count.index]
   security_groups = [aws_security_group.vault_security_group.id]
 }
 
