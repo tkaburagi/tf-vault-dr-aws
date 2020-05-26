@@ -25,12 +25,15 @@ resource "aws_eip" "vault_eip" {
   tags = merge(var.tags, map("Name", "kabu_vault_eip"))
 }
 
-
 # NatGateway
+resource "aws_eip" "nat" {
+  vpc = true
+}
+
 resource "aws_nat_gateway" "nat" {
-  count = var.num_of_site
+  count = 1
   subnet_id = aws_subnet.public.*.id[0]
-  allocation_id = aws_eip.vault_eip.id
+  allocation_id = aws_eip.nat.id
 }
 
 
