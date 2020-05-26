@@ -3,7 +3,7 @@ resource "aws_alb" "vault_alb" {
   count = var.num_of_site
   name = "vault-alb-${count.index}"
   internal = false
-  subnets = aws_subnet.public.*.id[count.index]
+  subnets = aws_subnet.public[count.index].id
   security_groups = [aws_security_group.vault_security_group.id]
 }
 
@@ -22,7 +22,7 @@ resource "aws_alb_target_group" "vault_tg" {
 resource "aws_alb_target_group_attachment" "alb_attach_tg_vault" {
   count = var.vault_instance_count
   target_group_arn = aws_alb_target_group.vault_tg[count.index].arn
-  target_id = aws_instance.vault_ec2.*.id[count.index]
+  target_id = aws_instance.vault_ec2[count.index].id
   port = 8200
 }
 
