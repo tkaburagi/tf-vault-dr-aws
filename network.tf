@@ -18,12 +18,21 @@ resource "aws_subnet" "public" {
 }
 
 # EIP
-resource "aws_eip" "vault_eip_dr_1" {
+resource "aws_eip" "vault_eip" {
   count = var.num_of_site
   instance = aws_instance.vault_ec2.*.id[count.index]
   vpc = true
   tags = merge(var.tags, map("Name", "kabu_vault_eip"))
 }
+
+
+# NatGateway
+resource "aws_nat_gateway" "nat" {
+  count = 1
+  subnet_id = aws_subnet.public.*.id[0]
+  allocation_id = aws_eip.vault_eip.id
+}
+
 
 # SG
 resource "aws_security_group" "vault_security_group" {
