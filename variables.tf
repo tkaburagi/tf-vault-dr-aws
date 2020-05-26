@@ -27,7 +27,6 @@ variable "vault_instance_type" {
 }
 
 variable "availability_zones" {
-    type = "list"
     default = ["ap-northeast-1a", "ap-northeast-1c"]
 }
 
@@ -36,12 +35,10 @@ variable "vpc_cidr" {
 }
 
 variable "subnets_cidr" {
-    type = "list"
     default = ["10.10.0.0/24", "10.10.1.0/24"]
 }
 
 variable "private_ips" {
-    type = "list"
     default = ["10.10.0.50","10.10.1.50"]
 }
 

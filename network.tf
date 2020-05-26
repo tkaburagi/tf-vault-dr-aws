@@ -61,7 +61,6 @@ resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat.id
 }
 
-
 # SG
 resource "aws_security_group" "vault_security_group" {
   name = "vault_security_group"
