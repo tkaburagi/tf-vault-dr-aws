@@ -8,7 +8,7 @@ resource "aws_instance" "vault_ec2" {
   key_name = aws_key_pair.deployer.id
   associate_public_ip_address = true
   private_ip = var.private_ips[count.index]
-
+  
   user_data =<<-EOF
                 #!/bin/sh
 
@@ -30,7 +30,7 @@ resource "aws_instance" "vault_ec2" {
                 export AWS_SECRET_ACCESS_KEY=${var.secret_key}
                 export AWS_ACCESS_KEY_ID=${var.access_key}
                 export VAULT_AWSKMS_SEAL_KEY_ID=${aws_kms_key.kms_key.key_id}
-                export API_ADDR_REPLACE=https://${aws_eip.vault_eip.public_ip}
+                export API_ADDR_REPLACE=https://${aws_instance.vault_ec2.public_ip[count.index]}
                 export CLUSTER_ADDR_REPLACE=${var.private_ips[count.index]}
 
                 sed "s|API_ADDR_REPLACE|`echo $API_ADDR_REPLACE`|g" vault-tempate-aws.hcl > config-0.hcl
