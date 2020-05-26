@@ -28,7 +28,7 @@ resource "aws_alb_target_group_attachment" "alb_attach_tg_vault" {
 
 resource "aws_alb_listener" "https_vault" {
   count = var.num_of_site
-  load_balancer_arn = aws_alb.vault_alb.arn
+  load_balancer_arn = aws_alb.vault_alb[count.index].arn
   port              = 443
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
