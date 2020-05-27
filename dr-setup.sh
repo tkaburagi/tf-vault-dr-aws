@@ -48,6 +48,7 @@ read VTOKEN_2
 
 echo "########## TOKEN 2: "${VTOKEN_2}
 
+# DR Settings
 echo "#DR Setting on Primary"
 VAULT_TOKEN=${VTOKEN_1} \
 vault write -f -tls-skip-verify \
@@ -64,20 +65,31 @@ WRAPPING_TOKEN=$(
 
 echo "#DR Setting on Secondary"
 
-
 VAULT_TOKEN=${VTOKEN_2} \
 vault write -f -tls-skip-verify \
 -address=https://vault-dr-1.kabu.hashidemos.io \
 sys/replication/dr/secondary/enable \
 token=${WRAPPING_TOKEN}
 
-# Check Status
+sleep 60
+
+# Check DR Status
+echo "#### DR0 Status"
+VAULT_TOKEN=${VTOKEN_1} vault read -tls-skip-verify \
+-address=https://vault-dr-0.kabu.hashidemos.io \
+sys/replication/dr/status
+
+echo "#### DR1 Status"
+VAULT_TOKEN=${VTOKEN_2} vault read -tls-skip-verify \
+-address=https://vault-dr-1.kabu.hashidemos.io \
+sys/replication/dr/status
+
+# Check Node Status
 echo "#### NODE0 STATUS"
-ssh -i ~/.ssh/hashistack.pem ubuntu@${PUB_IP_0} \
--o "StrictHostKeyChecking no" \
-VAULT_ADDR=https://${PRV_IP_0}:8200 ./vault status -tls-skip-verify
+VAULT_TOKEN=${VTOKEN_1} vault status -tls-skip-verify \
+-address=https://vault-dr-0.kabu.hashidemos.io
 
 echo "#### NODE1 STATUS"
 ssh -i ~/.ssh/hashistack.pem ubuntu@${PUB_IP_1} \
--o "StrictHostKeyChecking no" \
-VAULT_ADDR=https://${PRV_IP_1}:8200 ./vault status -tls-skip-verify
+VAULT_TOKEN=${VTOKEN_1} vault status -tls-skip-verify \
+-address=https://vault-dr-0.kabu.hashidemos.io
