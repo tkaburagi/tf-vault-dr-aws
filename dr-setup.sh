@@ -2,11 +2,8 @@
 
 PRV_IP_0=10.10.0.50
 PRV_IP_1=10.10.1.50
-CA_CERT=$(cat /Users/kabu/hashicorp/certs/vaultca-hashidemos.crt.pem)
-CLIENT_CERT=$(cat /Users/kabu/hashicorp/certs/vaultvault-hashidemos.crt.pem)
-CLIENT_KEY=$(cat /Users/kabu/hashicorp/certs/vaultvault-hashidemos.key.pem)
-DR_1_URL=https://vault-dr-0.kabu.hashidemos.io
-DR_2_URL=https://vault-dr-1.kabu.hashidemos.io
+DR_0_URL=https://vault-dr-0.kabu.hashidemos.io
+DR_1_URL=https://vault-dr-1.kabu.hashidemos.io
 TAG=kabu_vault_eip
 
 PUB_IP_0=$(
